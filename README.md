@@ -63,6 +63,7 @@ After installation, your project directory structure should look like this:
     └── README.md
 
 ## :rocket: Running FlexSQL
+
 ### :dart: Schema Retriever
 ### :dart: SQL Generator
 
