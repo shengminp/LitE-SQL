@@ -146,13 +146,6 @@ python generate.py \
     --generate_times $generate_times \
     --rft_iter 1 \
 ```
-- **$base_name:** Model name ```(Qwen/Qwen2.5-Coder-1.5B-Instruct, Qwen/Qwen2.5-Coder-3B-Instruct, Qwen/Qwen2.5-Coder-7B-Instruct)```.
-- **$data_name:** Dataset name ```(bird, spider)```.
-- **$checkpoint_dir:** Path of checkpoint.
-- **$schema_file:** Path of schema file
-- **$generation_mode:** Generation mode ```(generate, revise)```.
-- **$generation_type:** Generation type ```(greedy, random)```.
-- **$generation_file:** Generation file ```(test, augment)```.
 - **$augment_times:** The times to augment the training data```.
 - **$generate_times:** The times to generate new data```.
 
@@ -170,13 +163,6 @@ python generate.py \
     --revise_times $revise_times \
     --rft_iter 1 \
 ```
-- **$base_name:** Model name ```(Qwen/Qwen2.5-Coder-1.5B-Instruct, Qwen/Qwen2.5-Coder-3B-Instruct, Qwen/Qwen2.5-Coder-7B-Instruct)```.
-- **$data_name:** Dataset name ```(bird, spider)```.
-- **$checkpoint_dir:** Path of checkpoint.
-- **$schema_file:** Path of schema file
-- **$generation_mode:** Generation mode ```(generate, revise)```.
-- **$generation_type:** Generation type ```(greedy, random)```.
-- **$generation_file:** Generation file ```(test, augment)```.
 - **$revise_times:** The times to revise the generated SQL```.
 
 ## :page_facing_up: License
