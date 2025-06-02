@@ -29,6 +29,7 @@ After installation, your project directory structure should look like this:
     .
     ├──schema_retriever
     ├──sql_generator
+    ├──environment.yml
     └── README.md
 
 ## :rocket: Running FlexSQL
