@@ -7,7 +7,7 @@ Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework w
 
 - :hammer_and_wrench: [Getting Started](#hammer_and_wrench-getting-started)
 - :rocket: [Running FlexSQL](#rocket-running-tinythinker)
-  - :mag: [Schema Retriever](#dart-train-tinythinker)
+  - :mag: [Schema Retriever](#mag-schema-retriever)
   - :dart: [SQL Generator](#dart-SQL-generator)
     - :memo: [Prepare Training Dataset](#memo-prepare-training-dataset)
     - :gear: [Train SQL Generator](#gear-train-SQL-generator)
@@ -34,7 +34,7 @@ After installation, your project directory structure should look like this:
 
 ## :rocket: Running FlexSQL
 
-### :dart: Schema Retriever
+### :mag: Schema Retriever
 ### :dart: SQL Generator
 The directory structure of SQL generator is as follow:
 
