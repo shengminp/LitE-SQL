@@ -26,47 +26,53 @@ conda env create -f environment.yml
 After installation, your project directory structure should look like this:
     
     .
+    ├──schema_retriever
     ├──sql_generator
-    |    ├── datasets
-    |    │    ├── bird
-    |    |    |    |── train
-    |    |    |    |    ├──train_databases
-    |    |    |    |    ├──sft
-    |    |    |    |    ├──rft
-    |    |    |    |    ├──BIRD-train-more-schema.json
-    |    |    |    |    ...
-    |    |    |    └── dev_20240627
-    |    |    |        ├──dev_databases
-    |    |    |        ├──retrieved
-    |    |    |        ...
-    |    │    ├── spider
-    |    |    │    ...
-    |    │    |    └── same as aboe
-    |    │    └── Prepare.ipynb
-    |    ├── models
-    |    ├── results
-    |    └── scripts
-    |         ├── utils
-    |         │    ├── spider_tool
-    |         |    |     ├── __init__.py
-    |         |    |     ├── evaluation.py
-    |         |    |     ├── exec_eval.py
-    |         |    |     ├── parse.py
-    |         |    |     └── process_sql.py
-    |         │    ├── __init__.py
-    |         │    ├── config.py
-    |         │    ├── data.py
-    |         │    ├── metric.py
-    |         |    └── trainer.py
-    |         ├── rft.py
-    |         ├── sft.py
-    |         └── generate.py
     └── README.md
 
 ## :rocket: Running FlexSQL
 
 ### :dart: Schema Retriever
 ### :dart: SQL Generator
+The directory structure of SQL generator is as follow:
+    .
+    └──sql_generator
+        ├── datasets
+        │    ├── bird
+        |    |    |── train
+        |    |    |    ├──train_databases
+        |    |    |    ├──sft
+        |    |    |    ├──rft
+        |    |    |    ├──BIRD-train-more-schema.json
+        |    |    |    ...
+        |    |    └── dev_20240627
+        |    |        ├──dev_databases
+        |    |        ├──retrieved
+        |    |        ...
+        │    ├── spider
+        |    │    ...
+        │    |    └── same as aboe
+        │    └── Prepare.ipynb
+        ├── models
+        ├── results
+        └── scripts
+             ├── utils
+             │    ├── spider_tool
+             |    |     ├── __init__.py
+             |    |     ├── evaluation.py
+             |    |     ├── exec_eval.py
+             |    |     ├── parse.py
+             |    |     └── process_sql.py
+             │    ├── __init__.py
+             │    ├── config.py
+             │    ├── data.py
+             │    ├── metric.py
+             |    └── trainer.py
+             ├── rft.py
+             ├── sft.py
+             └── generate.py
+
+
 
 #### :memo: Prepare Training Dataset
 1. Download the dataset from its official site and place it under ```./datasets```.
