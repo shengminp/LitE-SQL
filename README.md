@@ -25,39 +25,46 @@ conda env create -f environment.yml
 After installation, your project directory structure should look like this:
     
     .
-    ├── datasets
-    │   ├── csqa
-    |   │   ├── final                               # Dataset for training TinyThinker
-    |   │   ├── original                            # Original dataset  
-    │   |   └── prompt                              # Designed prompt for prompt engineering
-    │   ├── obqa
-    |   │   ...
-    │   |   └── same as aboe
-    │   |── strategyqa
-    |   │   ...
-    │   |   └── same as above
-    │   ├── openai_request.py                       # Sends requests and collects responses from OpenAI
-    │   ├── Prepare Ablation.ipynb                  # Prepares data for ablation study
-    │   ├── Prompt Engineering.ipynb                # Prepares dataset for training
-    │   └── request.json                            # Instructions for prompts
-    ├── models                                      # Stores model checkpoints
-    ├── results                                     # Saves generated results during inference
-    ├── scripts
-    │   ├── utils
-    |   │   ├── __init__.py
-    |   │   ├── config.py                           # Configuration file for TinyThinker
-    │   |   └── trainer.py                          # Customized Huggingface trainer
-    │   ├── dpo.py                                  # Manages DPO runs
-    │   ├── finetune.py                             # Handles TinyThinker training
-    │   ├── generate.py                             # Handles data generation
-    │   ├── run_dpo.sh                              # Script for iterative DPO process
-    │   ├── run_finetune.sh                         # Script for training
-    │   └── run_generate.sh                         # Script for data generation
+    ├──sql_generator
+    |    ├── datasets
+    |    │    ├── bird
+    |    |    |    |── train
+    |    |    |    |    ├──train_databases
+    |    |    |    |    ├──sft
+    |    |    |    |    ├──rft
+    |    |    |    |    ├──BIRD-train-more-schema.json
+    |    |    |    |    ...
+    |    |    |    └── dev_20240627
+    |    |    |        ├──dev_databases
+    |    |    |        ├──retrieved
+    |    |    |        ...
+    |    │    ├── spider
+    |    |    │    ...
+    |    │    |    └── same as aboe
+    |    │    └── Prepare.ipynb
+    |    ├── models
+    |    ├── results
+    |    └── scripts
+    |         ├── utils
+    |         │    ├── spider_tool
+    |         |    |     ├── __init__.py
+    |         |    |     ├── evaluation.py
+    |         |    |     ├── exec_eval.py
+    |         |    |     ├── parse.py
+    |         |    |     └── process_sql.py
+    |         │    ├── __init__.py
+    |         │    ├── config.py
+    |         │    ├── data.py
+    |         │    ├── metric.py
+    |         |    └── trainer.py
+    |         ├── rft.py
+    |         ├── sft.py
+    |         └── generate.py
     └── README.md
 
 ## :rocket: Running TinyThinker
 
-### :memo: Prompt Engineering
+### :memo: Prepare Training Dataset
 1. Download the dataset from its official site and place it under ```./datasets/DATASET/original```.
 2. Run ```./datasets/Prompt Engineering.ipynb``` to prepare prompts for the dataset.
 3. Execute ```./datasets/openai_request.py``` to generate responses from OpenAI:
@@ -65,8 +72,8 @@ After installation, your project directory structure should look like this:
 4. Once completed, the prepared dataset will be located at ```./datasets/DATASET/final```.
 5. Use ```Prepare Ablation.ipynb``` to prepare the ablation study dataset, with results saved at ```./datasets/DATASET/final```.
    
-### :dart: Train TinyThinker
-**Phase-1: Reasoning Acquisition**
+### :dart: Train FlexSQL
+**Phase-1: Supervised Fine-tuning**
 
 In this phase, a T5 model is fine-tuned using a three-stage process. Run the following command:
 ```
@@ -85,7 +92,7 @@ python finetune.py \
 - **$stage_type:** Training stage ```(summarize, recall_summarize, analyze_summarize, recall_analyze_summarize)```.
 - **$interval:** Interval value between stages.
 
-**Phase-2: Self-Reflection**
+**Phase-2: Reinforcement Fine-tuning**
 
 In this phase, we refine the reasoning through self-generated data using DPO. Run:
 ```
