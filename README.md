@@ -147,8 +147,8 @@ python generate.py \
     --generate_times $generate_times \
     --rft_iter 1 \
 ```
-- **$augment_times:** The times to augment the training data```.
-- **$generate_times:** The times to generate new data```.
+- **$augment_times:** The times to augment the training data.
+- **$generate_times:** The times to generate new data.
 
 Use the following command to do inferences after rft phase:
 ```
@@ -164,7 +164,7 @@ python generate.py \
     --revise_times $revise_times \
     --rft_iter 1 \
 ```
-- **$revise_times:** The times to revise the generated SQL```.
+- **$revise_times:** The times to revise the generated SQL.
 
 ## :page_facing_up: License
 
