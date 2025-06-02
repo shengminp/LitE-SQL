@@ -18,8 +18,8 @@ Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework w
 To set up the environment, use the following commands:
 
 ```
-git clone https://github.com/shengminp/TinyThinker.git
-cd TinyThinker
+git clone https://github.com/shengminp/FlexSQL.git
+cd FlexSQL
 conda env create -f environment.yml
 ```
 
@@ -69,17 +69,13 @@ After installation, your project directory structure should look like this:
 ### :dart: SQL Generator
 
 #### :memo: Prepare Training Dataset
-1. Download the dataset from its official site and place it under ```./datasets/DATASET/original```.
-2. Run ```./datasets/Prompt Engineering.ipynb``` to prepare prompts for the dataset.
-3. Execute ```./datasets/openai_request.py``` to generate responses from OpenAI:
-   - If the generated responses contain errors, repeat steps 2 and 3 as needed (see details in ```Prompt Engineering.ipynb```).
-4. Once completed, the prepared dataset will be located at ```./datasets/DATASET/final```.
-5. Use ```Prepare Ablation.ipynb``` to prepare the ablation study dataset, with results saved at ```./datasets/DATASET/final```.
+1. Download the dataset from its official site and place it under ```./datasets```.
+2. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
 
 #### :memo: Train SQL Generator
 **Phase-1: Supervised Fine-tuning**
 
-In this phase, a T5 model is fine-tuned using a three-stage process. Run the following command:
+In this phase, a Qwen2.5-Code model is fine-tuned. Run the following command:
 ```
 python finetune.py \
     --base_model $model_name \
@@ -98,7 +94,7 @@ python finetune.py \
 
 **Phase-2: Reinforcement Fine-tuning**
 
-In this phase, we refine the reasoning through self-generated data using DPO. Run:
+In this phase, we fine tune the model with self-generated data. Run the following command:
 ```
 python dpo.py \
     --base_model $base_model \
@@ -115,8 +111,6 @@ python dpo.py \
 - **$data_name:** Dataset name ```(csqa, obqa, strategyqa)```.
 - **$stage_type:** Training stage ```(recall, analyze, recall_analyze)```.
 - **$dpo_iter:** Current iteration timestamp.
-
-For iterative DPO, use the ```run_dpo.sh``` script.
 
 ### :hourglass_flowing_sand: Inference
 Use the following command to generate inferences:
