@@ -43,14 +43,14 @@ The directory structure of SQL generator is as follow:
         ├── datasets
         │    ├── bird
         |    |    |── train
-        |    |    |    ├──train_databases
-        |    |    |    ├──sft
-        |    |    |    ├──rft
-        |    |    |    ├──BIRD-train-more-schema.json
+        |    |    |    ├── train_databases
+        |    |    |    ├── sft
+        |    |    |    ├── rft
+        |    |    |    ├── BIRD-train-more-schema.json
         |    |    |    ...
         |    |    └── dev_20240627
-        |    |        ├──dev_databases
-        |    |        ├──retrieved
+        |    |        ├── dev_databases
+        |    |        ├── retrieved
         |    |        ...
         │    ├── spider
         |    │    ...
