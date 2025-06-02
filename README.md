@@ -35,6 +35,7 @@ After installation, your project directory structure should look like this:
 ### :dart: Schema Retriever
 ### :dart: SQL Generator
 The directory structure of SQL generator is as follow:
+
     .
     └──sql_generator
         ├── datasets
