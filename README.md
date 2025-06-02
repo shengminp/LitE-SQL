@@ -75,22 +75,15 @@ After installation, your project directory structure should look like this:
 #### :memo: Train SQL Generator
 **Phase-1: Supervised Fine-tuning**
 
-In this phase, a Qwen2.5-Code model is fine-tuned. Run the following command:
+In this phase, a Qwen2.5-Coder model is fine-tuned. Run the following command:
 ```
 python finetune.py \
     --base_model $model_name \
     --data_name $data_name \
-    --training_type sft \
-    --stage_type $stage_type \
-    --per_gpu_batch_size $batch_size \
-    --num_train_epochs $num_epochs \
-    --learning_rate $lr \
-    --interval $interval
+    --training_phase sft \
 ```
-- **$model_name:** Model name from Huggingface ```(google-t5/t5-small, google-t5/t5-base, google-t5/t5-large, google-t5/t5-3b, google-t5/t5-11b)```.
-- **$data_name:** Dataset name ```(csqa, obqa, strategyqa)```.
-- **$stage_type:** Training stage ```(summarize, recall_summarize, analyze_summarize, recall_analyze_summarize)```.
-- **$interval:** Interval value between stages.
+- **$model_name:** Model name from Huggingface ```(Qwen/Qwen2.5-Coder-1.5B-Instruct, Qwen/Qwen2.5-Coder-3B-Instruct, Qwen/Qwen2.5-Coder-7B-Instruct)```.
+- **$data_name:** Dataset name ```(bird, spider)```.
 
 **Phase-2: Reinforcement Fine-tuning**
 
@@ -98,43 +91,85 @@ In this phase, we fine tune the model with self-generated data. Run the followin
 ```
 python dpo.py \
     --base_model $base_model \
-    --ref_model $ref_model \
+    --tune_model $checkpoint \
+    --ref_model $checkpoint \
     --data_name $data_name \
-    --training_type dpo \
-    --stage_type $stage_type \
-    --dpo_iter $dpo_iter \
-    --per_gpu_batch_size $per_gpu_batch_size \
-    --learning_rate $learning_rate
+    --training_phase rft \
+    --rft_iter $rft_iter \
 ```
-- **$base_name:** Model name ```(google-t5/t5-small, google-t5/t5-base, google-t5/t5-large, google-t5/t5-3b, google-t5/t5-11b)```.
-- **$ref_model:** Path to the reference model checkpoint.
-- **$data_name:** Dataset name ```(csqa, obqa, strategyqa)```.
-- **$stage_type:** Training stage ```(recall, analyze, recall_analyze)```.
-- **$dpo_iter:** Current iteration timestamp.
+- **$base_model:** Model name from Huggingface ```(Qwen/Qwen2.5-Coder-1.5B-Instruct, Qwen/Qwen2.5-Coder-3B-Instruct, Qwen/Qwen2.5-Coder-7B-Instruct)```.
+- **$tune_model:** Path of checkpoint from sft pahse.
+- **$ref_model:** Same as $tune_model.
+- **$data_name:** Dataset name ```(bird, spider)```.
 
 ### :hourglass_flowing_sand: Inference
-Use the following command to generate inferences:
+Use the following command to do inferences after sft phase:
 ```
 python generate.py \
     --base_model $base_model \
     --data_name $data_name \
-    --training_type $type_name \
-    --stage_type $stage_type \
-    --dpo_iter $dpo_iter \
+    --training_phase sft \
     --checkpoint_dir $checkpoint_path\
-    --per_gpu_batch_size $batch_size \
+    --schema_file $schema_file_path\
+    --generation_mode $generation_mode \
+    --generation_type $generation_type \
+    --generation_file $generation_file
+```
+- **$base_name:** Model name ```(Qwen/Qwen2.5-Coder-1.5B-Instruct, Qwen/Qwen2.5-Coder-3B-Instruct, Qwen/Qwen2.5-Coder-7B-Instruct)```.
+- **$data_name:** Dataset name ```(bird, spider)```.
+- **$checkpoint_dir:** Path of checkpoint.
+- **$schema_file:** Path of schema file
+- **$generation_mode:** Generation mode ```(generate, revise)```.
+- **$generation_type:** Generation type ```(greedy, random)```.
+- **$generation_file:** Generation file ```(test, augment)```.
+
+Use the following command to generate data for rft phase:
+```
+python generate.py \
+    --base_model $base_model \
+    --data_name $data_name \
+    --training_phase sft \
+    --checkpoint_dir $checkpoint_path\
+    --schema_file $schema_file_path\
+    --generation_mode $generation_mode \
     --generation_type $generation_type \
     --generation_file $generation_file \
-    --generation_times $generation_times
+    --augment_times $augment_times \
+    --generate_times $generate_times \
+    --rft_iter 1 \
 ```
-- **$base_name:** Model name ```(google-t5/t5-small, google-t5/t5-base, google-t5/t5-large, google-t5/t5-3b, google-t5/t5-11b)```.
-- **$data_name:** Dataset name ```(csqa, obqa, strategyqa)```.
-- **$training_type:** Phase type ```(sft, dpo)```.
-- **$stage_type:** Inference stage ```(recall, analyze, summarize, recall_summarize, analyze_summarize, recall_analyze, recall_analyze_summarize)```.
-- **$dpo_iter:** Iteration timestamp.
+- **$base_name:** Model name ```(Qwen/Qwen2.5-Coder-1.5B-Instruct, Qwen/Qwen2.5-Coder-3B-Instruct, Qwen/Qwen2.5-Coder-7B-Instruct)```.
+- **$data_name:** Dataset name ```(bird, spider)```.
+- **$checkpoint_dir:** Path of checkpoint.
+- **$schema_file:** Path of schema file
+- **$generation_mode:** Generation mode ```(generate, revise)```.
 - **$generation_type:** Generation type ```(greedy, random)```.
-- **$generation_file:** File type ```(test, dpo)```.
-- **$generation_times:** Number of generation attempts.
+- **$generation_file:** Generation file ```(test, augment)```.
+- **$augment_times:** The times to augment the training data```.
+- **$generate_times:** The times to generate new data```.
+
+Use the following command to do inferences after rft phase:
+```
+python generate.py \
+    --base_model $base_model \
+    --data_name $data_name \
+    --training_phase rft \
+    --checkpoint_dir $checkpoint_path\
+    --schema_file $schema_file_path\
+    --generation_mode $generation_mode \
+    --generation_type $generation_type \
+    --generation_file $generation_file \
+    --revise_times $revise_times \
+    --rft_iter 1 \
+```
+- **$base_name:** Model name ```(Qwen/Qwen2.5-Coder-1.5B-Instruct, Qwen/Qwen2.5-Coder-3B-Instruct, Qwen/Qwen2.5-Coder-7B-Instruct)```.
+- **$data_name:** Dataset name ```(bird, spider)```.
+- **$checkpoint_dir:** Path of checkpoint.
+- **$schema_file:** Path of schema file
+- **$generation_mode:** Generation mode ```(generate, revise)```.
+- **$generation_type:** Generation type ```(greedy, random)```.
+- **$generation_file:** Generation file ```(test, augment)```.
+- **$revise_times:** The times to revise the generated SQL```.
 
 ## :page_facing_up: License
 
