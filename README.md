@@ -1,6 +1,7 @@
 # FlexSQL
 Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework with Vector-based Schema Linking and Execution-Guided Self-Correction**"
-![Uploading Method-Inference-final.png…]()
+![Method-Inference-final](https://github.com/user-attachments/assets/16d9c03d-926d-40d3-aa98-0e7bb4a337f0)
+
 
 ## :bookmark_tabs: Table of Contents
 
