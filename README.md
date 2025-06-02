@@ -110,7 +110,7 @@ python dpo.py \
 - **$ref_model:** Same as $tune_model.
 - **$data_name:** Dataset name ```(bird, spider)```.
 
-### :hourglass_flowing_sand: Inference
+#### :hourglass_flowing_sand: Inference
 Use the following command to do inferences after sft phase:
 ```
 python generate.py \
