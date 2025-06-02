@@ -62,7 +62,7 @@ After installation, your project directory structure should look like this:
     |         └── generate.py
     └── README.md
 
-## :rocket: Running Train FlexSQL
+## :rocket: Running FlexSQL
 
 ### :memo: Prepare Training Dataset
 1. Download the dataset from its official site and place it under ```./datasets/DATASET/original```.
