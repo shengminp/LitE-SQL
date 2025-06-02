@@ -63,16 +63,18 @@ After installation, your project directory structure should look like this:
     └── README.md
 
 ## :rocket: Running FlexSQL
+### :dart: Schema Retriever
+### :dart: SQL Generator
 
-### :memo: Prepare Training Dataset
+#### :memo: Prepare Training Dataset
 1. Download the dataset from its official site and place it under ```./datasets/DATASET/original```.
 2. Run ```./datasets/Prompt Engineering.ipynb``` to prepare prompts for the dataset.
 3. Execute ```./datasets/openai_request.py``` to generate responses from OpenAI:
    - If the generated responses contain errors, repeat steps 2 and 3 as needed (see details in ```Prompt Engineering.ipynb```).
 4. Once completed, the prepared dataset will be located at ```./datasets/DATASET/final```.
 5. Use ```Prepare Ablation.ipynb``` to prepare the ablation study dataset, with results saved at ```./datasets/DATASET/final```.
-   
-### :dart: Train FlexSQL
+
+#### :memo: Train SQL Generator
 **Phase-1: Supervised Fine-tuning**
 
 In this phase, a T5 model is fine-tuned using a three-stage process. Run the following command:
