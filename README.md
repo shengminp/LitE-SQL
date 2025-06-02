@@ -85,7 +85,7 @@ The directory structure of SQL generator is as follow:
 
 In this phase, a Qwen2.5-Coder model is fine-tuned. Run the following command:
 ```
-python finetune.py \
+python sft.py \
     --base_model $model_name \
     --data_name $data_name \
     --training_phase sft \
@@ -97,7 +97,7 @@ python finetune.py \
 
 In this phase, we fine tune the model with self-generated data. Run the following command:
 ```
-python dpo.py \
+python rft.py \
     --base_model $base_model \
     --tune_model $checkpoint \
     --ref_model $checkpoint \
