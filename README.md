@@ -10,6 +10,7 @@ Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework w
   - :dart: [Schema Retriever](#dart-train-tinythinker)
   - :dart: [SQL Generator](#dart-train-tinythinker)
     - :memo: [Prepare Training Dataset](#memo-prompt-engineering)
+    - :memo: [Train SQL Generator](#memo-train-SQL-generator)
     - :hourglass_flowing_sand: [Inference](#hourglass_flowing_sand-inference)
 - :page_facing_up: [License](#page_facing_up-license)
 
