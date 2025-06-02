@@ -6,9 +6,9 @@ Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework w
 ## :bookmark_tabs: Table of Contents
 
 - :hammer_and_wrench: [Getting Started](#hammer_and_wrench-getting-started)
-- :rocket: [Running TinyThinker](#rocket-running-tinythinker)
+- :rocket: [Running FlexSQL](#rocket-running-tinythinker)
   - :memo: [Prompt Engineering](#memo-prompt-engineering)
-  - :dart: [Train TinyThinker](#dart-train-tinythinker)
+  - :dart: [Train FlexSQL](#dart-train-tinythinker)
   - :hourglass_flowing_sand: [Inference](#hourglass_flowing_sand-inference)
 - :page_facing_up: [License](#page_facing_up-license)
 
@@ -62,7 +62,7 @@ After installation, your project directory structure should look like this:
     |         └── generate.py
     └── README.md
 
-## :rocket: Running TinyThinker
+## :rocket: Running Train FlexSQL
 
 ### :memo: Prepare Training Dataset
 1. Download the dataset from its official site and place it under ```./datasets/DATASET/original```.
