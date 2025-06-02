@@ -7,7 +7,7 @@ Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework w
 
 - :hammer_and_wrench: [Getting Started](#hammer_and_wrench-getting-started)
 - :rocket: [Running FlexSQL](#rocket-running-tinythinker)
-  - :dart: [Schema Retriever](#dart-train-tinythinker)
+  - :mag: [Schema Retriever](#dart-train-tinythinker)
   - :dart: [SQL Generator](#dart-train-tinythinker)
     - :gear: [Prepare Training Dataset](#gear-prepare-training-dataset)
     - :memo: [Train SQL Generator](#memo-train-SQL-generator)
