@@ -19,8 +19,8 @@ Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework w
 To set up the environment, use the following commands:
 
 ```
-git clone https://github.com/shengminp/FlexSQL.git
-cd FlexSQL
+git clone https://github.com/shengminp/LitE-SQL.git
+cd LitE-SQL
 conda env create -f environment.yml
 ```
 
