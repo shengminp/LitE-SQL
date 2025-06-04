@@ -141,21 +141,21 @@ def preprocess_train_dataset(train_data, db_infos):
         
         full_schema_data.append(q_sample)
     
-    with open("./datasets/train/BIRD-train.json", "w") as j:
+    with open("./schema_retriever/data/BIRD-train.json", "w") as j:
         json.dump(full_schema_data, j, indent=4)
 
     db_u.save_and_extract_schema_info(
         info_path="./schema_retriever/data/BIRD_train_database_infos.json",
-        data_path="./datasets/train/BIRD-train.json",
+        data_path="./schema_retriever/data/BIRD-train.json",
         column_names=[
             'related_columns',
             'full_schemas',
         ],
-        save_path="./datasets/train/BIRD-train-more-schema.json"
+        save_path="./sql_generator/bird/train/BIRD-train-more-schema.json"
     )
 
 def main:
-    DATA_PATH = "BIRD/train/"
+    DATA_PATH = "./datasets/bird/train/"
     ROOT_DB_PATH = os.path.join(DATA_PATH, 'train_databases')
   
     with open(os.path.join(DATA_PATH, 'train_tables.json'), 'r') as j:
@@ -167,9 +167,10 @@ def main:
 
     save_db_info_with_example_values(db_infos, "./schema_retriever/data/BIRD_train_database_infos.json")
 
+    preprocess_train_dataset(datas, db_infos)
     # ------------------------------------------------------------------------------
 
-    DATA_PATH = "BIRD/dev_20240627/"
+    DATA_PATH = "./datasets/bird/dev_20240627/"
     ROOT_DB_PATH = os.path.join(DATA_PATH, 'dev_databases')
     
     with open(os.path.join(DATA_PATH, 'dev_tables.json'), 'r') as j:
