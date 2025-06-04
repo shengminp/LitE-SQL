@@ -27,6 +27,33 @@ conda env create -f environment.yml
 After installation, your project directory structure should look like this:
     
     .
+    ├── datasets
+    │    ├── bird
+    |    |    |── train
+    |    |    |    ├── train_databases
+    |    |    |    ├── sft
+    |    |    |    ├── rft
+    |    |    |    ├── BIRD-train-more-schema.json
+    |    |    |    ...
+    |    |    └── dev_20240627
+    |    |         ├── dev_databases
+    |    |         ├── retrieved
+    |    |         ...
+    │    ├── spider
+    |    |    |── train
+    |    |    |    ├── train_databases
+    |    |    |    ├── sft
+    |    |    |    ├── rft
+    |    |    |    ├── BIRD-train-more-schema.json
+    |    |    |    ...
+    |    |    |── dev
+    |    |    |    ├── dev_databases
+    |    |    |    ├── retrieved
+    |    |    |     ...
+    |    |    └── test
+    |    |         ├── dev_databases
+    |    |         ├── retrieved
+    |    |         ...
     ├── schema_retriever
     ├── sql_generator
     ├── environment.yml
@@ -42,20 +69,6 @@ The directory structure of SQL generator is as follow:
     .
     └──sql_generator
         ├── datasets
-        │    ├── bird
-        |    |    |── train
-        |    |    |    ├── train_databases
-        |    |    |    ├── sft
-        |    |    |    ├── rft
-        |    |    |    ├── BIRD-train-more-schema.json
-        |    |    |    ...
-        |    |    └── dev_20240627
-        |    |         ├── dev_databases
-        |    |         ├── retrieved
-        |    |         ...
-        │    ├── spider
-        |    │    ...
-        │    |    └── same as above
         │    └── Prepare.ipynb
         ├── models
         ├── results
