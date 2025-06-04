@@ -35,6 +35,7 @@ After installation, your project directory structure should look like this:
 ## :rocket: Running LitE-SQL
 
 ### :mag: Schema Retriever
+The directory structure of schema retriever is as follow:
 ### :dart: SQL Generator
 The directory structure of SQL generator is as follow:
 
