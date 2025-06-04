@@ -41,17 +41,17 @@ After installation, your project directory structure should look like this:
     |    |         ...
     │    └──  spider
     |         |── train
-    |         |    ├── train_databases
+    |         |    ├── database
     |         |    ├── sft
     |         |    ├── rft
-    |         |    ├── BIRD-train-more-schema.json
+    |         |    ├── SPIDER-train-more-schema.json
     |         |    ...
     |         |── dev
-    |         |    ├── dev_databases
+    |         |    ├── database
     |         |    ├── retrieved
     |         |     ...
     |         └── test
-    |              ├── dev_databases
+    |              ├── dev_database
     |              ├── retrieved
     |              ...
     ├── schema_retriever
