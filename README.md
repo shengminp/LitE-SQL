@@ -99,9 +99,8 @@ The directory structure of SQL generator is as follow:
 
 
 #### :memo: Prepare Training Dataset
-1. Download the dataset from its official site and place it under ```./datasets```.
-2. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
-3. The dataset directory should look like this:
+1. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
+2. The dataset directory should look like this:
 ```text
    .
     └── datasets
