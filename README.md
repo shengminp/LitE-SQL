@@ -36,9 +36,9 @@ After installation, your project directory structure should look like this:
 Specifically, the directory structure of datasets is as follow:
 
     .
-    └── **datasets**
-         ├── **bird**
-         |    |── **train**
+    └── datasets
+         ├── bird
+         |    |── train
          |    |    ├── train_databases
          |    |    ├── sft
          |    |    ├── rft
@@ -46,15 +46,15 @@ Specifically, the directory structure of datasets is as follow:
          |    |    ├── train_tables.json
          |    |    ├── train.json
          |    |    └── train_gold.sql
-         |    └── **dev_20240627**
+         |    └── dev_20240627
          |         ├── dev_databases
          |         ├── retrieved
          |         ├── dev.json
          |         ├── dev_tables.json
          |         ├── dev_tied_append.json
          |         └── dev.sql
-         └── **spider**
-              |── **train**
+         └── spider
+              |── train
               |    ├── database
               |    ├── sft
               |    ├── rft
@@ -63,13 +63,13 @@ Specifically, the directory structure of datasets is as follow:
               |    ├── train_others.json
               |    ├── tables.json
               |    └── train_spider.sql
-              |── **dev**
+              |── dev
               |    ├── database
               |    ├── retrieved
               |    ├── dev.json
               |    ├── tables.json
               |    └── dev_gold.sql
-              └── **test**
+              └── test
                    ├── dev_database
                    ├── retrieved
                    ├── test.json
