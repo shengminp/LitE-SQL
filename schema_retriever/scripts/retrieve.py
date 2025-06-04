@@ -213,10 +213,13 @@ def main():
     logger.info("📢 Now Schema Linker running..")
     retrieved_columns = schemalinker.run()
 
+    with open("./datasets/dev_20240627/retrieved/BIRD-dev.json", "w") as j:
+        json.dump(retrieved_columns, j, indent=4)
+    
     logger.info("📢 Saving Retrieved Information..")
     save_and_extract_schema_info(
         info_path = "./schema_retriever/data/BIRD_dev_database_infos.json"),
-        retrieved_data = retrieved_columns,
+        data_path = "./datasets/dev_20240627/retrieved/BIRD-dev.json",
         column_names = [
             f"queried_schemas_top{args.SL_K}"
         ]
