@@ -40,15 +40,11 @@ Specifically, the directory structure of datasets is as follow:
          ├── bird
          |    |── train
          |    |    ├── train_databases
-         |    |    ├── sft
-         |    |    ├── rft
-         |    |    ├── BIRD-train-more-schema.json
          |    |    ├── train_tables.json
          |    |    ├── train.json
          |    |    └── train_gold.sql
          |    └── dev_20240627
          |         ├── dev_databases
-         |         ├── retrieved
          |         ├── dev.json
          |         ├── dev_tables.json
          |         ├── dev_tied_append.json
@@ -56,22 +52,17 @@ Specifically, the directory structure of datasets is as follow:
          └── spider
               |── train
               |    ├── database
-              |    ├── sft
-              |    ├── rft
-              |    ├── SPIDER-train-more-schema.json
               |    ├── train_gold.sql
               |    ├── train_others.json
               |    ├── tables.json
               |    └── train_spider.sql
               |── dev
               |    ├── database
-              |    ├── retrieved
               |    ├── dev.json
               |    ├── tables.json
               |    └── dev_gold.sql
               └── test
-                   ├── dev_database
-                   ├── retrieved
+                   ├── test_database
                    ├── test.json
                    ├── test_tables.json
                    └── test_gold.sql
@@ -107,10 +98,42 @@ The directory structure of SQL generator is as follow:
              └── generate.py
 
 
-
 #### :memo: Prepare Training Dataset
 1. Download the dataset from its official site and place it under ```./datasets```.
 2. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
+3. The dataset directory should look like this:
+
+.
+    └── datasets
+         ├── bird
+         |    |── train
+         |    |    ├── sft
+         |    |    |    └── sft_train.json
+         |    |    ├── rft
+         |    |    ├── BIRD-train-more-schema.json
+         |    |    ...
+         |    └── dev_20240627
+         |         ├── retrieved
+         |         |    ├── BIRD-dev-more-schema.json
+         |         |    ...
+         |         ...
+         └── spider
+              |── train
+              |    ├── sft
+              |    |    └── sft_train.json
+              |    ├── rft
+              |    ├── SPIDER-train-more-schema.json
+              |    ...
+              |── dev
+              |    ├── retrieved
+              |    |    ├── BIRD-dev-more-schema.json
+              |    |    ...
+              |    ...
+              └── test
+                   ├── retrieved
+                   |    ├── BIRD-dev-more-schema.json
+                   |    ...
+                   ...
 
 #### :gear: Train SQL Generator
 **Phase-1: Supervised Fine-tuning**
