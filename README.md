@@ -71,6 +71,42 @@ Specifically, after downloading the dataset, you should arrange the directory st
 
 ### :mag: Schema Retriever
 The directory structure of schema retriever is as follow:
+
+    .
+    └──schema_retriever
+        ├── data
+        │    └── preprocessing.py
+        ├── language_model
+        │    |── language_model.py
+        │    └── saved_model
+        ├── utils
+        │    ├── configs.py
+        │    ├── dataset_util.py
+        │    ├── db_utils.py
+        |    └── utils.py        
+        └── scripts
+             ├── fine-tune.py
+             └── retrieve.py
+
+#### :memo: Pre-process Dataset
+Please refer to `./schema_retriever/data/README.md`  
+NOTE: `./schema_retriever/data/preprocessing.py` must be executed before following steps.
+
+#### :gear: Fine-tune Embedding Model
+For fi this phase, we fine tune the model with self-generated data. Run the following command:
+```
+python schema_retriever/scripts/fine-tune.py \
+    --ft_path $ft_path \
+    --model_name $checkpoint \
+    --epoch $checkpoint \
+    --batch_size $data_name \
+    --n_limit rft \
+    --LM_MODEL $rft_iter \
+    --DATA_PATH $rft_iter \
+```
+- **$ft_path:** Path for saving fine-tuned model. Default=`./schema_retriever/language_model/saved_model`.
+- **$data_name:** .
+- 
 ### :dart: SQL Generator
 The directory structure of SQL generator is as follow:
 
