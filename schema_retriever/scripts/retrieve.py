@@ -213,17 +213,17 @@ def main():
     logger.info("📢 Now Schema Linker running..")
     retrieved_columns = schemalinker.run()
 
-    with open("./datasets/dev_20240627/retrieved/BIRD-dev.json", "w") as j:
+    with open("./schema_retriever/data/BIRD-dev.json", "w") as j:
         json.dump(retrieved_columns, j, indent=4)
     
     logger.info("📢 Saving Retrieved Information..")
     save_and_extract_schema_info(
         info_path = "./schema_retriever/data/BIRD_dev_database_infos.json"),
-        data_path = "./datasets/dev_20240627/retrieved/BIRD-dev.json",
+        data_path = "./schema_retriever/data/BIRD-dev.json",
         column_names = [
             f"queried_schemas_top{args.SL_K}"
         ]
-        save_path = "./datasets/dev_20240627/retrieved/BIRD-dev-more-schema.json"
+        save_path = "./sql_generator/dev_20240627/retrieved/BIRD-dev-more-schema.json"
     )
 
 if __name__ == '__main__':
