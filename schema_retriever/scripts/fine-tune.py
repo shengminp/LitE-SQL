@@ -55,6 +55,7 @@ parser.add_argument('--epoch', type=int, default=3)
 parser.add_argument('--batch_size', type=int, default=32)
 parser.add_argument('--n_limit', type=int, default=7)
 parser.add_argument('--LM_MODEL', type=str, default='intfloat/multilingual-e5-large')
+parser.add_argument('--DATA_PATH', type=str, default='./schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json')
 
 logger = get_logger()
 
@@ -73,7 +74,7 @@ def main():
     batch_size = opt.batch_size
 
     dataset = SchemaDataset(
-        JSON_DATA_PATH="./schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json", 
+        JSON_DATA_PATH=opt.DATA_PATH, 
         tokenizer=tokenizer,
         max_length=256
     )
