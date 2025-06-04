@@ -1,5 +1,5 @@
 import json, os, sys
-from schema_retriever.utils.db_utils import get_related_tab_col, Questions, load_tables_description
+from schema_retriever.utils.db_utils import get_related_tab_col, Questions, load_tables_description, parse_db_info
 
 def create_documents(DB_PATH):
     table_description = load_tables_description(DB_PATH, True)
@@ -31,68 +31,94 @@ def get_pos_neg_samples(sample: Questions, db_schema:dict) -> (list, list):
                 
     return positive_samples, negative_samples
 
-def main:
-  DATA_PATH = "BIRD/train/"
-  
-  with open(os.path.join(DATA_PATH, 'train_tables.json'), 'r') as j:
-      db_infos = json.load(j)
-  
-  with open(os.path.join(DATA_PATH, 'train.json'), 'r') as j:
-      datas = json.load(j)
-  
-  datasets = [
-      Questions(
-          db_id=data['db_id'],
-          question_id=data['question_id'],
-          question=data['question'],
-          evidence=data['evidence'],
-          SQL=data['SQL'],
-          db_info=next(
-              (
-                  db_info 
-                  for db_info in db_infos 
-                  if db_info["db_id"] == data["db_id"]), 
-              None
-          ), 
-      )
-      for data in datas
-  ]
-  
-  for sample in datasets:
-      sample.related_schema = get_related_tab_col(sample)
-    
-  json_dataset = []
-  cnt_db = {name: 0 for name in docs.keys()}
-  
-  for sample in datasets:
-      db_schema = docs[sample.db_id]
-      pos_samples, neg_samples = get_pos_neg_samples(sample, db_schema)
-      json_dataset.append(
-          {
-              "question": sample.question,
-              "evidence": sample.evidence,
-              "SQL": sample.SQL,
-              "positive_columns": pos_samples,
-              "negative_columns": neg_samples,
-          }
-      )
-      cnt_db[sample.db_id] += 1
-
-  new_dataset = []
-  for sample in datasets:
-      new_dataset.extend(
-          [{
-              'question': sample['question'],
-              'evidence': sample['evidence'],
-              'SQL': sample['SQL'],
-              'positive_columns': [pos],
-              'negative_columns': sample['negative_columns']
-          }
-          for pos in sample['positive_columns']]
-      )
+def preprocess_fine_tuning_datasets(datas, db_infos):
+    datasets = [
+        Questions(
+            db_id=data['db_id'],
+            question_id=data['question_id'],
+            question=data['question'],
+            evidence=data['evidence'],
+            SQL=data['SQL'],
+            db_info=next(
+                (
+                    db_info 
+                    for db_info in db_infos 
+                    if db_info["db_id"] == data["db_id"]), 
+                None
+            ), 
+        )
+        for data in datas
+    ]
       
-  with open("data/fine-tuning_samples_from_BIRD_augmented_version.json", "w", encoding='utf-8') as j:
-      json.dump(new_dataset, j)
+    for sample in datasets:
+        sample.related_schema = get_related_tab_col(sample)
     
+    json_dataset = []
+    cnt_db = {name: 0 for name in docs.keys()}
+    
+    for sample in datasets:
+        db_schema = docs[sample.db_id]
+        pos_samples, neg_samples = get_pos_neg_samples(sample, db_schema)
+        json_dataset.append(
+            {
+                "question": sample.question,
+                "evidence": sample.evidence,
+                "SQL": sample.SQL,
+                "positive_columns": pos_samples,
+                "negative_columns": neg_samples,
+            }
+        )
+        cnt_db[sample.db_id] += 1
+        new_dataset = []
+        for sample in datasets:
+            new_dataset.extend(
+                [{
+                    'question': sample['question'],
+                    'evidence': sample['evidence'],
+                    'SQL': sample['SQL'],
+                    'positive_columns': [pos],
+                    'negative_columns': sample['negative_columns']
+                }
+                 for pos in sample['positive_columns']]
+            )
+            
+    with open("./schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json", "w", encoding='utf-8') as j:
+        json.dump(new_dataset, j)    
+
+def save_db_info_with_example_values(raw_db_info, path):
+    db_infos = {}
+
+    for db_info in raw_db_infos:
+        db_infos[db_info['db_id']] = parse_db_info(db_info)
+
+    with open(path, "w") as j:
+        json.dump(db_infos, j, indent=4)
+
+def main:
+    DATA_PATH = "BIRD/train/"
+    ROOT_DB_PATH = os.path.join(DATA_PATH, 'train_databases')
+  
+    with open(os.path.join(DATA_PATH, 'train_tables.json'), 'r') as j:
+        db_infos = json.load(j)
+    with open(os.path.join(DATA_PATH, 'train.json'), 'r') as j:
+        datas = json.load(j)
+      
+    preprocess_fine_tuning_datasets(datas, db_infos)
+
+    save_db_info_with_example_values(db_infos, "./schema_retriever/BIRD_train_database_infos.json")
+
+    # ------------------------------------------------------------------------------
+
+    DATA_PATH = "BIRD/dev_20240627/"
+    ROOT_DB_PATH = os.path.join(DATA_PATH, 'dev_databases')
+    
+    with open(os.path.join(DATA_PATH, 'dev_tables.json'), 'r') as j:
+        db_infos = json.load(j)
+    
+    with open(os.path.join(DATA_PATH, 'dev.json'), 'r') as j:
+        datas = json.load(j)
+
+    save_db_info_with_example_values(db_infos, "./schema_retriever/BIRD_dev_database_infos.json")
+
 if __name__ == '__main__':
     main()
