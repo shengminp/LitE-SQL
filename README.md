@@ -93,8 +93,9 @@ Please refer to `./schema_retriever/data/README.md`
 NOTE: `./schema_retriever/data/preprocessing.py` must be executed before following steps.
 
 #### :gear: Fine-tune and Run
-**Fine-tune Embedding Model**
-Run the following command:
+**1. Fine-tune Embedding Model**
+
+After this fine-tuning step, the embedding model would be saved on `$ft_path/$model_name`. Run the following command:
 ```
 python schema_retriever/scripts/fine-tune.py \
     --ft_path $ft_path \
@@ -112,10 +113,10 @@ python schema_retriever/scripts/fine-tune.py \
 - **$n_limit:** (`7`)
 - **$LM_MODEL:** Embedding model from Huggingface (`intfloat/multilingual-e5-large`)
 - **$DATA_PATH:** Path for training dataset (`schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json`)
-After this fine-tuning step, the embedding model would be saved on `$ft_path/$model_name` (`schema_retriever/language_model/saved_model/fine-tuned-embedding-model`).
+  
+**2. Run Schema Retriever**
 
-**Run Schema Retriever**
-This Schema Retriever code is for BIRD. Run the following command:
+This Schema Retriever code is for BIRD. After running this retrieval step, retrieved schema information would be saved on `sql_generator/dev_20240627/retrieved/BIRD-dev-more-schema.json`. Run the following command:
 ```
 python schema_retriever/scripts/retrieve.py \
     --root_path $root_path \
@@ -129,7 +130,6 @@ python schema_retriever/scripts/retrieve.py \
 - **$data_path:** Path of dataset (`dev.json`)
 - **$database_dir_path:** Path of database (`dev_databases`)
 - **$SL_K:** The number of retrieved columns (`25`)
-After running this retrieval step, retrieved schema information would be saved on `sql_generator/dev_20240627/retrieved/BIRD-dev-more-schema.json`.
 
 ### :dart: SQL Generator
 The directory structure of SQL generator is as follow:
