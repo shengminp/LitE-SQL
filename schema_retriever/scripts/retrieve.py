@@ -10,7 +10,7 @@ import schema_retriever.utils.configs as cfg
 from schema_retriever.utils.db_utils import Questions, load_tables_description, apply_original_casing
 from schema_retriever.language_model.langauge_model import CustomEmbeddings
 
-class SchemaLinker:
+class SchemaRetriever:
     def __init__(self, args):
         self.ROOT_PATH = args.root_path # "BIRD/dev_20240627"
         self.DB_SCHEMA_INFO_PATH = args.db_schema_info_path # "dev_tables.json"
