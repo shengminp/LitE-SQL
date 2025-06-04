@@ -8,6 +8,9 @@ Official code for "**FlexSQL: A Lightweight and Flexible Text-to-SQL Framework w
 - :hammer_and_wrench: [Getting Started](#hammer_and_wrench-getting-started)
 - :rocket: [Running FlexSQL](#rocket-running-tinythinker)
   - :mag: [Schema Retriever](#mag-schema-retriever)
+    - :memo: [Pre-process Dataset](#memo-pre-process-dataset)
+    - :gear: [Fine-tune Embedding Model](#gear-fine-tune-embedding-model)
+    - :hourglass_flowing_sand: [Run Schema Retriever](#hourglass_flowing_sand-run-schema-retriever)
   - :dart: [SQL Generator](#dart-SQL-generator)
     - :memo: [Prepare Training Dataset](#memo-prepare-training-dataset)
     - :gear: [Train SQL Generator](#gear-train-SQL-generator)
@@ -92,8 +95,7 @@ The directory structure of schema retriever is as follow:
 Please refer to `./schema_retriever/data/README.md`  
 NOTE: `./schema_retriever/data/preprocessing.py` must be executed before following steps.
 
-#### :gear: Fine-tune and Run
-**1. Fine-tune Embedding Model**
+#### :gear: Fine-tune Embedding Model
 
 After this fine-tuning step, the embedding model would be saved on `$ft_path/$model_name`. Run the following command:
 ```
@@ -108,13 +110,10 @@ python schema_retriever/scripts/fine-tune.py \
 ```
 - **$ft_path:** Path of embedding model to be saved (`schema_retriever/language_model/saved_model`)
 - **$model_name:** Name of embedding model (`fine-tuned-embedding-model`)
-- **$epoch:** (`3`)
-- **$batch_size:** (`32`)
-- **$n_limit:** (`7`)
 - **$LM_MODEL:** Embedding model from Huggingface (`intfloat/multilingual-e5-large`)
 - **$DATA_PATH:** Path for training dataset (`schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json`)
   
-**2. Run Schema Retriever**
+#### :hourglass_flowing_sand: Run Schema Retriever
 
 This Schema Retriever code is for BIRD. After running this retrieval step, retrieved schema information would be saved on `sql_generator/dev_20240627/retrieved/BIRD-dev-more-schema.json`. Run the following command:
 ```
