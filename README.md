@@ -28,47 +28,51 @@ After installation, your project directory structure should look like this:
     
     .
     ├── datasets
-    │    ├── bird
-    |    |    |── train
-    |    |    |    ├── train_databases
-    |    |    |    ├── sft
-    |    |    |    ├── rft
-    |    |    |    ├── BIRD-train-more-schema.json
-    |    |    |    ...
-    |    |    └── dev_20240627
-    |    |         ├── dev_databases
-    |    |         ├── retrieved
-    |    |         ├── dev.json
-    |    |         ├── dev_tables.json
-    |    |         ├── dev_tied_append.json
-    |    |         └── dev.sql
-    │    └── spider
-    |         |── train
-    |         |    ├── database
-    |         |    ├── sft
-    |         |    ├── rft
-    |         |    ├── SPIDER-train-more-schema.json
-    |         |    ├── train_gold.sql
-    |         |    ├── train_others.json
-    |         |    ├── tables.json
-    |         |    └── train_spider.sql
-    |         |── dev
-    |         |    ├── database
-    |         |    ├── retrieved
-    |         |    ├── dev.json
-    |         |    ├── tables.json
-    |         |    └── dev_gold.sql
-    |         └── test
-    |              ├── dev_database
-    |              ├── retrieved
-    |              ├── test.json
-    |              ├── test_tables.json
-    |              └── test_gold.sql
-    | 
     ├── schema_retriever
     ├── sql_generator
     ├── environment.yml
     └── README.md
+
+Specifically, the directory structure of datasets is as follow:
+
+    .
+    └── datasets
+         ├── bird
+         |    |── train
+         |    |    ├── train_databases
+         |    |    ├── sft
+         |    |    ├── rft
+         |    |    ├── BIRD-train-more-schema.json
+         |    |    ...
+         |    └── dev_20240627
+         |         ├── dev_databases
+         |         ├── retrieved
+         |         ├── dev.json
+         |         ├── dev_tables.json
+         |         ├── dev_tied_append.json
+         |         └── dev.sql
+         └── spider
+              |── train
+              |    ├── database
+              |    ├── sft
+              |    ├── rft
+              |    ├── SPIDER-train-more-schema.json
+              |    ├── train_gold.sql
+              |    ├── train_others.json
+              |    ├── tables.json
+              |    └── train_spider.sql
+              |── dev
+              |    ├── database
+              |    ├── retrieved
+              |    ├── dev.json
+              |    ├── tables.json
+              |    └── dev_gold.sql
+              └── test
+                   ├── dev_database
+                   ├── retrieved
+                   ├── test.json
+                   ├── test_tables.json
+                   └── test_gold.sql
 
 ## :rocket: Running LitE-SQL
 
