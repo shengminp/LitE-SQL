@@ -92,21 +92,45 @@ The directory structure of schema retriever is as follow:
 Please refer to `./schema_retriever/data/README.md`  
 NOTE: `./schema_retriever/data/preprocessing.py` must be executed before following steps.
 
-#### :gear: Fine-tune Embedding Model
-For fi this phase, we fine tune the model with self-generated data. Run the following command:
+#### :gear: Fine-tune and Run
+**Fine-tune Embedding Model**
+Run the following command:
 ```
 python schema_retriever/scripts/fine-tune.py \
     --ft_path $ft_path \
-    --model_name $checkpoint \
-    --epoch $checkpoint \
-    --batch_size $data_name \
-    --n_limit rft \
-    --LM_MODEL $rft_iter \
-    --DATA_PATH $rft_iter \
+    --model_name $model_name \
+    --epoch $epoch \
+    --batch_size $batch_size \
+    --n_limit $n_limit \
+    --LM_MODEL $LM_MODEL \
+    --DATA_PATH $DATA_PATH \
 ```
-- **$ft_path:** Path for saving fine-tuned model. Default=`./schema_retriever/language_model/saved_model`.
-- **$data_name:** .
-- 
+- **$ft_path:** Path of embedding model to be saved (`schema_retriever/language_model/saved_model`)
+- **$model_name:** Name of embedding model (`fine-tuned-embedding-model`)
+- **$epoch:** (`3`)
+- **$batch_size:** (`32`)
+- **$n_limit:** (`7`)
+- **$LM_MODEL:** Embedding model from Huggingface (`intfloat/multilingual-e5-large`)
+- **$DATA_PATH:** Path for training dataset (`schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json`)
+After this fine-tuning step, the embedding model would be saved on `$ft_path/$model_name` (`schema_retriever/language_model/saved_model/fine-tuned-embedding-model`).
+
+**Run Schema Retriever**
+This Schema Retriever code is for BIRD. Run the following command:
+```
+python schema_retriever/scripts/retrieve.py \
+    --root_path $root_path \
+    --db_schema_info_path $db_schema_info_path \
+    --data_path $data_path \
+    --database_dir_path $database_dir_path \
+    --SL_K $K
+```
+- **$root_path:** Path of dataset root dir (`datasets/bird/dev_20240627`)
+- **$db_schema_info_path:** Path of schema info (`dev_tables.json`)
+- **$data_path:** Path of dataset (`dev.json`)
+- **$database_dir_path:** Path of database (`dev_databases`)
+- **$SL_K:** The number of retrieved columns (`25`)
+After running this retrieval step, retrieved schema information would be saved on `sql_generator/dev_20240627/retrieved/BIRD-dev-more-schema.json`.
+
 ### :dart: SQL Generator
 The directory structure of SQL generator is as follow:
 
