@@ -129,7 +129,7 @@ python schema_retriever/scripts/retrieve.py \
 - **$data_path:** Path of dataset (`dev.json`)
 - **$database_dir_path:** Path of database (`dev_databases`)
 - **$SL_K:** The number of retrieved columns (`25`)
-
+---------------------------------------------------------------------
 ### :dart: SQL Generator
 The directory structure of SQL generator is as follow:
 
