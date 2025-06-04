@@ -32,7 +32,7 @@ After installation, your project directory structure should look like this:
     ├── environment.yml
     └── README.md
 
-## :rocket: Running FlexSQL
+## :rocket: Running LitE-SQL
 
 ### :mag: Schema Retriever
 ### :dart: SQL Generator
