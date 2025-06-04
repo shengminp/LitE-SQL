@@ -1,8 +1,9 @@
 import json, os, sys
-from schema_retriever.utils.db_utils import get_related_tab_col, Questions, load_tables_description, parse_db_info
+import schema_retriever.utils.db_utils as db_u
+# import get_related_tab_col, Questions, load_tables_description, parse_db_info, apply_original_casing, save_and_extract_schema_info
 
 def create_documents(DB_PATH):
-    table_description = load_tables_description(DB_PATH, True)
+    table_description = db_u.load_tables_description(DB_PATH, True)
     
     docs = {table.lower(): {} for table in table_description.keys()}
     
@@ -33,7 +34,7 @@ def get_pos_neg_samples(sample: Questions, db_schema:dict) -> (list, list):
 
 def preprocess_fine_tuning_datasets(datas, db_infos):
     datasets = [
-        Questions(
+        db_u.Questions(
             db_id=data['db_id'],
             question_id=data['question_id'],
             question=data['question'],
@@ -51,7 +52,7 @@ def preprocess_fine_tuning_datasets(datas, db_infos):
     ]
       
     for sample in datasets:
-        sample.related_schema = get_related_tab_col(sample)
+        sample.related_schema = db_u.get_related_tab_col(sample)
     
     json_dataset = []
     cnt_db = {name: 0 for name in docs.keys()}
@@ -89,10 +90,69 @@ def save_db_info_with_example_values(raw_db_info, path):
     db_infos = {}
 
     for db_info in raw_db_infos:
-        db_infos[db_info['db_id']] = parse_db_info(db_info)
+        db_infos[db_info['db_id']] = db_u.parse_db_info(db_info)
 
     with open(path, "w") as j:
         json.dump(db_infos, j, indent=4)
+
+def preprocess_train_dataset(train_data, db_infos):
+    def get_db_dict(_sample):
+        tables = [t.lower() for t in _sample.db_info['table_names_original']]
+        columns = _sample.db_info['column_names_original'][1:]
+    
+        tc_dict = {t:[] for t in tables}
+    
+        for c in columns:
+            tc_dict[tables[c[0]]].append(c[1].lower())
+
+    return {k: v for k, v in tc_dict.items() if v}
+    datasets = [
+        db_u.Questions(
+            db_id=data['db_id'],
+            question=data['question'],
+            evidence=data['evidence'],
+            SQL=data['SQL'],
+            db_info=next(
+                (
+                    db_info 
+                    for db_info in db_infos 
+                    if db_info["db_id"] == data["db_id"]), 
+                None
+            ), 
+        )
+        for data in train_data
+    ]
+
+    for sample in datasets:
+        sample.related_schema = db_u.get_related_tab_col(sample)
+
+    datasets = [sample for sample in datasets if sum(len(cols) for cols in sample.related_schema.values())]
+    
+    full_schema_data = []
+
+    for sample in datasets:
+        q_sample = dict()
+        q_sample['db_id'] = sample.db_id
+        q_sample['question'] = sample.question
+        q_sample['evidence'] = sample.evidence
+        q_sample['SQL'] = sample.SQL
+        q_sample['related_schemas'] = db_u.apply_original_casing(sample.related_schema, sample.db_info)
+        q_sample['full_schemas'] = db_u.apply_original_casing(get_db_dict(sample), sample.db_info)
+        
+        full_schema_data.append(q_sample)
+    
+    with open("./datasets/train/BIRD-train.json", "w") as j:
+        json.dump(full_schema_data, j, indent=4)
+
+    db_u.save_and_extract_schema_info(
+        info_path="./schema_retriever/data/BIRD_train_database_infos.json",
+        data_path="./datasets/train/BIRD-train.json",
+        column_names=[
+            'related_columns',
+            'full_schemas',
+        ],
+        save_path="./datasets/train/BIRD-train-more-schema.json"
+    )
 
 def main:
     DATA_PATH = "BIRD/train/"
@@ -105,7 +165,7 @@ def main:
       
     preprocess_fine_tuning_datasets(datas, db_infos)
 
-    save_db_info_with_example_values(db_infos, "./schema_retriever/BIRD_train_database_infos.json")
+    save_db_info_with_example_values(db_infos, "./schema_retriever/data/BIRD_train_database_infos.json")
 
     # ------------------------------------------------------------------------------
 
@@ -118,7 +178,7 @@ def main:
     with open(os.path.join(DATA_PATH, 'dev.json'), 'r') as j:
         datas = json.load(j)
 
-    save_db_info_with_example_values(db_infos, "./schema_retriever/BIRD_dev_database_infos.json")
+    save_db_info_with_example_values(db_infos, "./schema_retriever/data/BIRD_dev_database_infos.json")
 
 if __name__ == '__main__':
     main()
