@@ -13,4 +13,4 @@ After preprocessing, json files would be generated:
     ├── fine-tuning_samples_from_BIRD_augmented_version.json  # For Schema Retriever fine-tuning
     └── README.md
 
-- `BIRD-train-more-schema.json` is saved under `./sql_generator/bird/train/
+- `BIRD-train-more-schema.json` is saved under `./sql_generator/bird/train/`
