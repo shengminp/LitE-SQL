@@ -1,6 +1,8 @@
+import random
+import sqlite3
 import pandas as pd
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List, Any
 from dataclasses import dataclass
 
 @dataclass
@@ -88,3 +90,106 @@ def apply_original_casing(schema, db_info):
             result[table_original].append(col_original)
 
     return result
+
+def get_column_sample_values(db_path: str, table: str, column: str, sample_size: int = 2) -> List[Any]:
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        query = f'''
+        SELECT "{column}"
+        FROM "{table}"
+        WHERE "{column}" IS NOT NULL
+        GROUP BY "{column}"
+        LIMIT 10
+        '''
+        cursor.execute(query)
+        raw_values = [row[0] for row in cursor.fetchall()]
+        conn.close()
+        
+        filtered = [v for v in raw_values if v not in ("", None)]
+        
+        if len(filtered) <= sample_size:
+            return filtered
+        
+        return random.sample(filtered, sample_size)
+
+    except Exception as e:
+        return [f"[Error: {e}]"]
+    
+def flatten_primary_keys(raw_keys):
+    result = set()
+    for item in raw_keys:
+        if isinstance(item, list):
+            result.update(item)
+        else:
+            result.add(item)
+    return result    
+
+def parse_db_info(db_info: dict):
+    db_id = db_info['db_id']
+    tables_original = db_info['table_names_original']
+    columns = db_info['column_names_original']
+    column_names = db_info['column_names']
+    column_types = db_info['column_types']
+    primary_keys = flatten_primary_keys(db_info['primary_keys'])
+    foreign_keys_raw = db_info['foreign_keys']
+    descriptions = load_tables_description(os.path.join(ROOT_DB_PATH, db_info['db_id']), True)
+
+    table_columns = {table: {} for table in tables_original}
+    foreign_keys = {}
+
+    for idx, (table_idx, col_name_orig) in enumerate(columns):
+        if table_idx == -1:
+            continue
+        table_name = tables_original[table_idx]
+        col_name_disp = column_names[idx][1]
+        col_type = column_types[idx]
+
+        desc_entry = descriptions.get(table_name, {}).get(col_name_orig.lower(), {})
+        description = ""
+        if desc_entry.get("column_description", ""):
+            description += f"{desc_entry['column_description']} "
+        if desc_entry.get("value_description", ""):
+            description += f"{desc_entry['value_description']}"
+        
+        values = get_column_sample_values(
+                    db_path = os.path.join(ROOT_DB_PATH, db_id, db_id+".sqlite"),
+                    table = table_name,
+                    column = col_name_orig
+                )
+        
+        col_info = {
+            "type": col_type,
+            "comment": col_name_disp,
+            "description": description,
+            "values": values,
+            "primary_key": idx in primary_keys,
+            "foreign_key": None
+        }
+
+        table_columns[table_name][col_name_orig] = col_info
+
+    for source_idx, target_idx in foreign_keys_raw:
+        source_table = tables_original[columns[source_idx][0]]
+        source_column = columns[source_idx][1]
+        target_table = tables_original[columns[target_idx][0]]
+        target_column = columns[target_idx][1]
+
+        key_from = f"{source_table}.{source_column}"
+        key_to = f"{target_table}.{target_column}"
+
+        foreign_keys[key_from] = key_to
+        foreign_keys[key_to] = key_from
+
+        if source_column in table_columns[source_table]:
+            table_columns[source_table][source_column]["foreign_key"] = key_to
+        
+        if target_column in table_columns[target_table]:
+            table_columns[target_table][target_column]["foreign_key"] = key_from
+
+    return {
+        "db_id":db_id,
+        "tables":table_columns,
+        "foreign_keys":foreign_keys
+    }
