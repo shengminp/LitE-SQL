@@ -39,7 +39,7 @@ After installation, your project directory structure should look like this:
     |    |         ├── dev_databases
     |    |         ├── retrieved
     |    |         ...
-    │    └──  spider
+    │    └── spider
     |         |── train
     |         |    ├── database
     |         |    ├── sft
