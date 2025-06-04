@@ -33,7 +33,7 @@ After installation, your project directory structure should look like this:
     ├── environment.yml
     └── README.md
 
-Specifically, the directory structure of datasets is as follow:
+Specifically, after downloading the dataset, you should arrange the directory structure of the datasets as follows:
 
     .
     └── datasets
