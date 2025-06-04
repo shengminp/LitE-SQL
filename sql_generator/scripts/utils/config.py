@@ -9,6 +9,7 @@ from trl.trainer.dpo_trainer import DPOConfig
 
 SCRIPT_PATH = os.path.abspath(__file__)
 ROOT_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '../../../'))
+DATA_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, '../../../../../../'))
 
 
 @dataclass
@@ -35,7 +36,7 @@ class BaseConfiguration:
     resume_from_checkpoint: str = None
 
     def __post_init__(self):
-        self.dataset_dir = os.path.abspath(os.path.join(ROOT_PATH, self.dataset_dir, self.data_name))
+        self.dataset_dir = os.path.abspath(os.path.join(DATA_PATH, self.dataset_dir, self.data_name))
         self.output_dir = os.path.abspath(os.path.join(ROOT_PATH, self.output_dir, self.data_name, self.base_model))
 
 
