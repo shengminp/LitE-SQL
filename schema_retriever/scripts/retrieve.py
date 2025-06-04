@@ -6,9 +6,9 @@ from transformers import AutoModel, AutoTokenizer
 from langchain.schema.document import Document
 from langchain_chroma import Chroma
 
-import schema_linking.utils.configs as cfg
-from schema_linking.utils.db_utils import Questions, load_tables_description, apply_original_casing
-from schema_linking.language_model.langauge_model import CustomEmbeddings
+import schema_retriever.utils.configs as cfg
+from schema_retriever.utils.db_utils import Questions, load_tables_description, apply_original_casing
+from schema_retriever.language_model.langauge_model import CustomEmbeddings
 
 class SchemaLinker:
     def __init__(self, args):
