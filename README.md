@@ -54,7 +54,7 @@ The directory structure of SQL generator is as follow:
         |    |        ...
         │    ├── spider
         |    │    ...
-        │    |    └── same as aboe
+        │    |    └── same as above
         │    └── Prepare.ipynb
         ├── models
         ├── results
