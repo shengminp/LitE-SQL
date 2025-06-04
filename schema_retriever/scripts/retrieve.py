@@ -8,7 +8,7 @@ from langchain_chroma import Chroma
 
 from schema_retriever.utils.utils import get_logger
 import schema_retriever.utils.configs as cfg
-from schema_retriever.utils.db_utils import Questions, load_tables_description, apply_original_casing
+from schema_retriever.utils.db_utils import Questions, load_tables_description, apply_original_casing, save_and_extract_schema_info
 from schema_retriever.language_model.langauge_model import CustomEmbeddings
 
 class SchemaRetriever:
@@ -212,6 +212,16 @@ def main():
     
     logger.info("📢 Now Schema Linker running..")
     retrieved_columns = schemalinker.run()
+
+    logger.info("📢 Saving Retrieved Information..")
+    save_and_extract_schema_info(
+        info_path = "./schema_retriever/data/BIRD_dev_database_infos.json"),
+        retrieved_data = retrieved_columns,
+        column_names = [
+            f"queried_schemas_top{args.SL_K}"
+        ]
+        save_path = "./datasets/dev_20240627/retrieved/BIRD-dev-more-schema.json"
+    )
 
 if __name__ == '__main__':
     try:
