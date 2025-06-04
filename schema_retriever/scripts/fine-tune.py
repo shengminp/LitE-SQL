@@ -10,8 +10,8 @@ from torch.optim import AdamW
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoModel
 
-from utils.utils import get_logger, get_foldername
-from utils.dataset_util import SchemaDataset, collate_fn
+from schema_retriever.utils.utils import get_logger, get_foldername
+from schema_retriever.utils.dataset_util import SchemaDataset, collate_fn
 
 
 def compute_embedding(tokenized_inputs, model, device):
