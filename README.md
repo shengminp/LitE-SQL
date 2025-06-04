@@ -102,8 +102,8 @@ The directory structure of SQL generator is as follow:
 1. Download the dataset from its official site and place it under ```./datasets```.
 2. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
 3. The dataset directory should look like this:
-
-    .
+```text
+   .
     └── datasets
          ├── bird
          |    |── train
@@ -118,22 +118,23 @@ The directory structure of SQL generator is as follow:
          |         |    ...
          |         ...
          └── spider
-              |── train
-              |    ├── sft
-              |    |    └── sft_train.json
-              |    ├── rft
-              |    ├── SPIDER-train-more-schema.json
-              |    ...
-              |── dev
-              |    ├── retrieved
-              |    |    ├── BIRD-dev-more-schema.json
-              |    |    ...
-              |    ...
-              └── test
-                   ├── retrieved
-                   |    ├── BIRD-dev-more-schema.json
-                   |    ...
-                   ...
+               |── train
+               |    ├── sft
+               |    |    └── sft_train.json
+               |    ├── rft
+               |    ├── SPIDER-train-more-schema.json
+               |    ...
+               |── dev
+               |    ├── retrieved
+               |    |    ├── BIRD-dev-more-schema.json
+               |    |    ...
+               |    ...
+               └── test
+                     ├── retrieved
+                     |    ├── BIRD-dev-more-schema.json
+                     |    ...
+                     ...
+```
 
 #### :gear: Train SQL Generator
 **Phase-1: Supervised Fine-tuning**
