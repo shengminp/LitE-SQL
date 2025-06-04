@@ -103,7 +103,7 @@ The directory structure of SQL generator is as follow:
 2. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
 3. The dataset directory should look like this:
 
-.
+    .
     └── datasets
          ├── bird
          |    |── train
