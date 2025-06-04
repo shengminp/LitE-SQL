@@ -6,6 +6,7 @@ from transformers import AutoModel, AutoTokenizer
 from langchain.schema.document import Document
 from langchain_chroma import Chroma
 
+from schema_retriever.utils.utils import get_logger
 import schema_retriever.utils.configs as cfg
 from schema_retriever.utils.db_utils import Questions, load_tables_description, apply_original_casing
 from schema_retriever.language_model.langauge_model import CustomEmbeddings
@@ -171,3 +172,51 @@ class SchemaRetriever:
             retrieved_data[i][f'queried_schemas_top{self.TOP_K}'] = apply_original_casing(retrieved_data[i][f'queried_schemas_top{self.TOP_K}'], self.datasets[i].db_info)
             
         return retrieved_data
+
+os.system('clear')
+
+logger = get_logger()
+
+def main():
+    parser.add_argument(
+        "--root_path", 
+        type=str, 
+        help="[PATH] Define a data sample root directory, e.g., BIRD/dev_20240627"
+        )
+    parser.add_argument(
+        "--db_schema_info_path", 
+        type=str, 
+        help="[PATH] Define a database schema path, e.g., dev_tables.json"
+        )
+    parser.add_argument(
+        "--data_path",
+        type=str, 
+        help="[PATH] Define a dataset path, e.g., dev.json"
+        )
+    parser.add_argument(
+        "--database_dir_path", 
+        type=str, 
+        help="[PATH] Define the saved database directory, e.g., dev_databases"
+        )
+    # For schema linking
+    parser.add_argument(
+        "--SL_K", 
+        type=int,
+        default=25,
+        help="[SCHEMA] Define k for # of retrieval columns, e.g., 25"
+        )
+
+    args = parser.parse_args()
+    
+    schemalinker = SchemaRetriever(args=args)
+    
+    logger.info("📢 Now Schema Linker running..")
+    retrieved_columns = schemalinker.run()
+
+if __name__ == '__main__':
+    try:
+        main()
+    except:
+        logger.exception("ERROR!!")
+    else:
+        logger.handlers.clear()   
