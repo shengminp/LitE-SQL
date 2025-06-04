@@ -39,21 +39,21 @@ After installation, your project directory structure should look like this:
     |    |         ├── dev_databases
     |    |         ├── retrieved
     |    |         ...
-    │    ├── spider
-    |    |    |── train
-    |    |    |    ├── train_databases
-    |    |    |    ├── sft
-    |    |    |    ├── rft
-    |    |    |    ├── BIRD-train-more-schema.json
-    |    |    |    ...
-    |    |    |── dev
-    |    |    |    ├── dev_databases
-    |    |    |    ├── retrieved
-    |    |    |     ...
-    |    |    └── test
-    |    |         ├── dev_databases
-    |    |         ├── retrieved
-    |    |         ...
+    │    └──  spider
+    |         |── train
+    |         |    ├── train_databases
+    |         |    ├── sft
+    |         |    ├── rft
+    |         |    ├── BIRD-train-more-schema.json
+    |         |    ...
+    |         |── dev
+    |         |    ├── dev_databases
+    |         |    ├── retrieved
+    |         |     ...
+    |         └── test
+    |              ├── dev_databases
+    |              ├── retrieved
+    |              ...
     ├── schema_retriever
     ├── sql_generator
     ├── environment.yml
