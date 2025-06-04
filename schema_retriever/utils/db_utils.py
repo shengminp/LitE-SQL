@@ -1,3 +1,5 @@
+import copy
+import json
 import random
 import sqlite3
 import pandas as pd
@@ -193,3 +195,35 @@ def parse_db_info(db_info: dict):
         "tables":table_columns,
         "foreign_keys":foreign_keys
     }
+
+def extract_schema_info(db_info, schemas):
+    group_result = {tab: {} for tab in schemas.keys()}
+    foreign_keys = []
+
+    for table_name, column_list in schemas.items():
+        for column_name in column_list:
+            column_data = copy.deepcopy(db_info['tables'][table_name][column_name])
+            group_result[table_name][column_name] = column_data
+    return group_result
+
+def save_and_extract_schema_info(info_path, data_path: str, column_names: list, save_path: str):
+    with open(info_path, "r") as j:
+        infos = json.load(j)
+        
+    with open(data_path, "r") as j:
+        data = json.load(j)
+        
+    new_data = copy.deepcopy(data)
+    
+    for i in range(len(data)):
+        for col in column_names:
+            try:
+                new_data[i][col] = extract_schema_info(
+                    db_info=infos[data[i]['db_id']],
+                    schemas=data[i][col]
+                )
+            except:
+                print(i)
+            
+    with open(save_path, "w") as j:
+        json.dump(new_data, j, indent=4)
