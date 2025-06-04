@@ -6,7 +6,7 @@ Official code for "**LitE-SQL: A Lightweight and Efficient Text-to-SQL Framework
 ## :bookmark_tabs: Table of Contents
 
 - :hammer_and_wrench: [Getting Started](#hammer_and_wrench-getting-started)
-- :rocket: [Running FlexSQL](#rocket-running-tinythinker)
+- :rocket: [Running LitE-SQL](#rocket-running-tinythinker)
   - :mag: [Schema Retriever](#mag-schema-retriever)
     - :memo: [Pre-process Dataset](#memo-pre-process-dataset)
     - :gear: [Fine-tune Embedding Model](#gear-fine-tune-embedding-model)
