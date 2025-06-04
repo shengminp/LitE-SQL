@@ -102,37 +102,37 @@ The directory structure of SQL generator is as follow:
 1. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
 2. The dataset directory should look like this:
 ```text
-   .
-    └── datasets
-         ├── bird
-         |    |── train
-         |    |    ├── sft
-         |    |    |    └── sft_train.json
-         |    |    ├── rft
-         |    |    ├── BIRD-train-more-schema.json
-         |    |    ...
-         |    └── dev_20240627
-         |         ├── retrieved
-         |         |    ├── BIRD-dev-more-schema.json
-         |         |    ...
-         |         ...
-         └── spider
-               |── train
-               |    ├── sft
-               |    |    └── sft_train.json
-               |    ├── rft
-               |    ├── SPIDER-train-more-schema.json
-               |    ...
-               |── dev
-               |    ├── retrieved
-               |    |    ├── BIRD-dev-more-schema.json
-               |    |    ...
-               |    ...
-               └── test
-                     ├── retrieved
-                     |    ├── BIRD-dev-more-schema.json
-                     |    ...
-                     ...
+.
+└── datasets
+     ├── bird
+     |    |── train
+     |    |    ├── sft
+     |    |    |    └── sft_train.json
+     |    |    ├── rft
+     |    |    ├── BIRD-train-more-schema.json
+     |    |    ...
+     |    └── dev_20240627
+     |         ├── retrieved
+     |         |    ├── BIRD-dev-more-schema.json
+     |         |    ...
+     |         ...
+     └── spider
+           |── train
+           |    ├── sft
+           |    |    └── sft_train.json
+           |    ├── rft
+           |    ├── SPIDER-train-more-schema.json
+           |    ...
+           |── dev
+           |    ├── retrieved
+           |    |    ├── BIRD-dev-more-schema.json
+           |    |    ...
+           |    ...
+           └── test
+                 ├── retrieved
+                 |    ├── BIRD-dev-more-schema.json
+                 |    ...
+                 ...
 ```
 
 #### :gear: Train SQL Generator
