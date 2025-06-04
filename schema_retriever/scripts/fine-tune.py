@@ -73,7 +73,7 @@ def main():
     batch_size = opt.batch_size
 
     dataset = SchemaDataset(
-        JSON_DATA_PATH="data/fine-tuning_samples_from_BIRD_augmented_version.json", 
+        JSON_DATA_PATH="./schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json", 
         tokenizer=tokenizer,
         max_length=256
     )
