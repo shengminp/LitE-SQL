@@ -160,7 +160,7 @@ The directory structure of SQL generator is as follow:
 #### :memo: Prepare Training Dataset
 1. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
 2. The dataset directory should look like this:
-```text
+```
 .
 └── datasets
      ├── bird
