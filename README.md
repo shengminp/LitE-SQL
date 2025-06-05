@@ -22,7 +22,7 @@ Official code for "**LitE-SQL: A Lightweight and Efficient Text-to-SQL Framework
 To set up the environment, use the following commands:
 
 ```
-git clone https://github.com/shengminp/LitE-SQL.git
+git clone
 cd LitE-SQL
 conda env create -f environment.yml
 ```
@@ -281,4 +281,4 @@ python generate.py \
 
 ## :page_facing_up: License
 
-This project is licensed under the [MIT](LICENSE) © Shengmin Piao & Jieun Lee
+This project is licensed under the [MIT](LICENSE)
