@@ -315,4 +315,4 @@ dependencies:
       - rich==14.0.0
       - sympy==1.13.1
       - trl==0.16.1
-prefix: /home/shengmin/anaconda3/envs/t2s
+prefix: /home/anaconda3/envs/t2s
