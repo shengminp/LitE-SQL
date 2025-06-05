@@ -160,10 +160,12 @@ The directory structure of SQL generator is as follow:
 #### :memo: Prepare Training Dataset
 1. Run ```./datasets/Prepare.ipynb``` to prepare dataset for suervised fine-tuning.
 2. The dataset directory should look like this:
+
+``` 
 .
 └── datasets
      ├── bird
-     |    |── train
+     |    ├── train
      |    |    ├── sft
      |    |    |    └── sft_train.json
      |    |    ├── rft
@@ -175,13 +177,13 @@ The directory structure of SQL generator is as follow:
      |         |    ...
      |         ...
      └── spider
-          |── train
+          ├── train
           |    ├── sft
           |    |    └── sft_train.json
           |    ├── rft
           |    ├── SPIDER-train-more-schema.json
           |    ...
-          |── dev
+          ├── dev
           |    ├── retrieved
           |    |    ├── SPIDER-dev-more-schema.json
           |    |    ...
@@ -191,6 +193,7 @@ The directory structure of SQL generator is as follow:
                |    ├── SPIDER-test-more-schema.json
                |    ...
                ...
+```
 
 #### :gear: Train SQL Generator
 **Phase-1: Supervised Fine-tuning**
