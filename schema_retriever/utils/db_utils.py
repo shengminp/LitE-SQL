@@ -9,12 +9,14 @@ from dataclasses import dataclass
 
 @dataclass
 class Questions:
-    db_id: str # db_id
-    question_id: int # question id
-    question: str
-    difficulty: str
-    db_info: dict # corresponding database info.
+    question_id: int = None # question_id
+    db_id: str = None # db_id
+    question: str = None
+    SQL: str = None # Golden SQL
+    difficulty: str = None
+    db_info: dict = None # corresponding database info.
     evidence: str = None # Hint for SQL
+    related_schema: dict = None # Related Table.Column
 
 def load_tables_description(db_directory_path: str, use_value_description: bool) -> Dict[str, Dict[str, Dict[str, str]]]:
     """
