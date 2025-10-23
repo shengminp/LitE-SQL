@@ -60,11 +60,11 @@ class SchemaRetriever:
         ]
             
     def _get_embedding_model(self):
-        tokenizer = AutoTokenizer.from_pretrained(self.EMBEDDING_MODEL_PATH, torch_dtype="auto")
+        tokenizer = AutoTokenizer.from_pretrained(self.EMBEDDING_MODEL_PATH, torch_dtype="auto", padding_side="left")
         model = AutoModel.from_pretrained(self.EMBEDDING_MODEL_PATH, torch_dtype="auto")
         model.eval()
         
-        self.embedding_function = CustomEmbeddings(model, tokenizer, device=self.device)
+        self.embedding_function = CustomEmbeddings(model, tokenizer, pooling=False, device=self.device)
         
     def _create_vector_database(self):
         db_names = os.listdir(os.path.join(self.ROOT_PATH, self.DATABASE_PATH))
@@ -86,11 +86,11 @@ class SchemaRetriever:
                         "value_description": column_info.get('value_description', '')
                     }
                     
-                    page_content = f"<table>{table_name}</table> <column>{column_name}</column> "
+                    page_content = f"table:{table_name}\ncolumn:{column_name}"
                     if column_info.get("column_description", "").strip():
-                        page_content += f"<column description>{column_info['column_description']}</column_description> "
+                        page_content += f"\ncolumn_desc:{column_info['column_description']}. "
                     if column_info.get("value_description", "").strip():
-                        page_content += f"<value description>{column_info['value_description']}</value description>"
+                        page_content += f"\nvalue_desc:{column_info['value_description']}."
                     docs.append(Document(page_content=page_content, metadata=metadata))
         
         # Save vector database on root path (e.g., "BIRD/dev_20240627/")
@@ -107,7 +107,10 @@ class SchemaRetriever:
         )
 
     def retrieve_topk_columns(self, vector_db, sample, method="similarity", topk=10):
-        query = f"<question>{sample.question}</question> <evidence>{sample.evidence}</evidence>"
+        instruction = "Instruct:Given a natural language question, retrieve database column information passages used to generate SQL.\n"
+
+        query = f"{instruction}Query:{sample.question}"
+        query = query + f" {sample.evidence}" if sample.evidence else query
         
         if len(vector_db.get()['documents']) < topk:
             topk = len(vector_db.get()['documents'])
@@ -162,6 +165,9 @@ class SchemaRetriever:
             q_sample['difficulty'] = sample.difficulty
             q_sample['question'] = sample.question
             q_sample['evidence'] = sample.evidence
+            q_sample['SQL'] = sample.SQL
+            q_sample['related_schemas'] = sample.related_schema
+            
             ## Retrieve topk columns for each question.
             q_sample[f'queried_schemas_top{self.TOP_K}'], q_sample[f'top{self.TOP_K}_contents'] = \
                 self.retrieve_topk_columns(vector_db, sample, topk=self.TOP_K)
