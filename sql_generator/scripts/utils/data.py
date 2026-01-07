@@ -25,6 +25,8 @@ def build_line_style_schema(table_list, column_list):
                 for v in column_info["values"]:
                     if type(v) is str and len(v) < 30:
                         value_list.append(v)
+                    elif type(v) is int:
+                        value_list.append(v)
                 if len(value_list) > 0:
                     column_data['values'] = value_list
             
