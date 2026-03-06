@@ -18,6 +18,77 @@ class Questions:
     evidence: str = None # Hint for SQL
     related_schema: dict = None # Related Table.Column
 
+def get_related_tab_col(sample: Questions) -> dict:
+    sql_query = sample.SQL
+    columns = sample.db_info['column_names_original']
+    columns_lower = [[item[0], item[1].lower()] for item in columns]
+    tables = sample.db_info['table_names_original']
+    tables_lower = [item.lower() for item in tables]
+
+    parsed_query = parse_one(sql_query.lower(), dialect='sqlite')
+
+    table_alias_map = {}
+    
+    # Extract CTE (Common Table Expression) list
+    cte_tables = {cte.alias_or_name.lower() for cte in parsed_query.find_all(sqlglot.expressions.CTE)}
+
+    # Table alias mapping
+    for table_expr in parsed_query.find_all(sqlglot.expressions.Table):
+        table_name = table_expr.this.name.lower()
+        alias = table_expr.alias_or_name.lower()
+
+        if table_name not in cte_tables and alias not in cte_tables:
+            table_alias_map[alias] = table_name
+        
+    none_table_columns = []
+    used_columns = {table: [] for table in table_alias_map.values()}
+
+    # Remove non-existent tables
+    for tab in list(used_columns.keys()):
+        if tab not in tables_lower:
+            del used_columns[tab]
+
+    # Mapping columns
+    for column in parsed_query.find_all(exp.Column):
+        if column.table:
+            table_alias = column.table
+            column_name = column.this.name
+
+            original_table = table_alias_map.get(table_alias.lower(), table_alias.lower())
+            if original_table in used_columns:
+                used_columns[original_table].append(column_name)
+        else:
+            # If there is no corresponding tables..
+            none_table_columns.append(column)
+
+    # Find columns inside subqueries as well
+    for subquery in parsed_query.find_all(exp.Select):
+        for col in subquery.find_all(exp.Column):
+            if col.table:
+                table_alias = col.table
+                column_name = col.this.name
+
+                original_table = table_alias_map.get(table_alias.lower(), table_alias.lower())
+                if original_table in used_columns:
+                    used_columns[original_table].append(column_name)
+
+    # Handle columns without table information (including columns in WHERE, ORDER BY, etc.)
+    for u_col in none_table_columns:
+        for u_tab in list(used_columns.keys()):
+            tabcol_pair = [tables_lower.index(u_tab), u_col.name]
+            if tabcol_pair in columns_lower:
+                used_columns[u_tab].extend([u_col.name])    
+
+    # Remove duplicates
+    used_columns = {table: list(set(cols)) for table, cols in used_columns.items()}
+    
+    # Keep only columns that actually exist
+    for tab in list(used_columns.keys()):
+        if tab in tables_lower:
+            used_columns[tab] = [col for col in used_columns[tab] if [tables_lower.index(tab), col] in columns_lower]
+            
+    return used_columns
+
 def load_tables_description(db_directory_path: str, use_value_description: bool) -> Dict[str, Dict[str, Dict[str, str]]]:
     """
     Loads table descriptions from CSV files in the database directory.
