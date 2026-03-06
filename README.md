@@ -1,5 +1,5 @@
-# [EACL '26 Finding 🔥] LitE-SQL
-Official code for "**LitE-SQL: A Lightweight and Efficient Text-to-SQL Framework with Vector-based Schema Linking and Execution-Guided Self-Correction**"
+# LitE-SQL
+**[EACL '26 Finding 🔥]** Official code for "**LitE-SQL: A Lightweight and Efficient Text-to-SQL Framework with Vector-based Schema Linking and Execution-Guided Self-Correction**"
 ![Method-Inference-final](https://github.com/user-attachments/assets/16d9c03d-926d-40d3-aa98-0e7bb4a337f0)
 
 
