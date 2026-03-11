@@ -1,6 +1,5 @@
 import json, os, sys
 import schema_retriever.utils.db_utils as db_u
-# import get_related_tab_col, Questions, load_tables_description, parse_db_info, apply_original_casing, save_and_extract_schema_info
 
 def create_documents(DB_PATH):
     table_description = db_u.load_tables_description(DB_PATH, True)
@@ -20,7 +19,7 @@ def create_documents(DB_PATH):
     
     return docs
 
-def get_pos_neg_samples(sample: Questions, db_schema:dict) -> (list, list):
+def get_pos_neg_samples(sample: db_u.Questions, db_schema:dict) -> (list, list):
     positive_samples = []
     negative_samples = []
     for table, columns in db_schema.items():
