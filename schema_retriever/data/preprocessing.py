@@ -105,7 +105,7 @@ def preprocess_train_dataset(train_data, db_infos):
         for c in columns:
             tc_dict[tables[c[0]]].append(c[1].lower())
 
-    return {k: v for k, v in tc_dict.items() if v}
+        return {k: v for k, v in tc_dict.items() if v}
     datasets = [
         db_u.Questions(
             db_id=data['db_id'],
