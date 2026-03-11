@@ -6,6 +6,8 @@ import pandas as pd
 from pathlib import Path
 from typing import Dict, List, Any
 from dataclasses import dataclass
+import sqlglot
+from sqlglot import exp, parse_one
 
 @dataclass
 class Questions:
