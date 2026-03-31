@@ -55,8 +55,7 @@ def preprocess_fine_tuning_datasets(datas, db_infos):
         sample.related_schema = db_u.get_related_tab_col(sample)
     
     json_dataset = []
-    cnt_db = {name: 0 for name in docs.keys()}
-    
+    cnt_db = {name: 0 for name in docs.keys()}    
     for sample in datasets:
         db_schema = docs[sample.db_id]
         pos_samples, neg_samples = get_pos_neg_samples(sample, db_schema)
@@ -70,18 +69,19 @@ def preprocess_fine_tuning_datasets(datas, db_infos):
             }
         )
         cnt_db[sample.db_id] += 1
-        new_dataset = []
-        for sample in datasets:
-            new_dataset.extend(
-                [{
-                    'question': sample['question'],
-                    'evidence': sample['evidence'],
-                    'SQL': sample['SQL'],
-                    'positive_columns': [pos],
-                    'negative_columns': sample['negative_columns']
-                }
-                 for pos in sample['positive_columns']]
-            )
+        
+    new_dataset = []
+    for sample in json_dataset:
+        new_dataset.extend(
+            [{
+                'question': sample['question'],
+                'evidence': sample['evidence'],
+                'SQL': sample['SQL'],
+                'positive_columns': [pos],
+                'negative_columns': sample['negative_columns']
+            }
+             for pos in sample['positive_columns']]
+        )
             
     with open("./schema_retriever/data/fine-tuning_samples_from_BIRD_augmented_version.json", "w", encoding='utf-8') as j:
         json.dump(new_dataset, j)    
